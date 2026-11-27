@@ -3261,6 +3261,7 @@ export interface ModifyEdgeIpSwitchResponse {
 }
 export interface ModifyEnterpriseSecurityDispatchStatusRequest {
   Status: number;
+  BindFallbackOnce?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -7617,6 +7618,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.Number,
+          BindFallbackOnce: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({

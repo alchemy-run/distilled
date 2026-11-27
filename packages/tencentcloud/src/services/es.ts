@@ -2165,6 +2165,19 @@ export interface SaveAndDeployLogstashPipelineRequest {
 export interface SaveAndDeployLogstashPipelineResponse {
   RequestId?: string | undefined;
 }
+export interface SearchServerlessSpaceDataRequest {
+  SpaceId: string;
+  Uri?: string | undefined;
+  Method?: string | undefined;
+  Body?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface SearchServerlessSpaceDataResponse {
+  HttpStatus?: number | undefined;
+  Result?: string | undefined;
+  RequestId?: string | undefined;
+}
 export interface StartLogstashPipelinesRequest {
   InstanceId: string;
   PipelineIds: StringList;
@@ -3713,6 +3726,23 @@ export const saveAndDeployLogstashPipeline: API.OperationMethod<
   span: "SaveAndDeployLogstashPipeline",
 }));
 
+export type SearchServerlessSpaceDataError = TencentCloudOpError;
+export const searchServerlessSpaceData: API.OperationMethod<
+  SearchServerlessSpaceDataRequest,
+  SearchServerlessSpaceDataResponse,
+  SearchServerlessSpaceDataError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1552, __c97, 0) as any as S.Schema<SearchServerlessSpaceDataRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<SearchServerlessSpaceDataResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchServerlessSpaceData",
+}));
+
 export type StartLogstashPipelinesError = TencentCloudOpError;
 export const startLogstashPipelines: API.OperationMethod<
   StartLogstashPipelinesRequest,
@@ -3720,7 +3750,7 @@ export const startLogstashPipelines: API.OperationMethod<
   StartLogstashPipelinesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<StartLogstashPipelinesRequest>,
+  input: __S(1568, __c98, 0) as any as S.Schema<StartLogstashPipelinesRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<StartLogstashPipelinesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3737,7 +3767,7 @@ export const stopLogstashPipelines: API.OperationMethod<
   StopLogstashPipelinesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<StopLogstashPipelinesRequest>,
+  input: __S(1584, __c99, 0) as any as S.Schema<StopLogstashPipelinesRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<StopLogstashPipelinesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3754,7 +3784,7 @@ export const updateDiagnoseSettings: API.OperationMethod<
   UpdateDiagnoseSettingsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<UpdateDiagnoseSettingsRequest>,
+  input: __S(1600, __c100, 0) as any as S.Schema<UpdateDiagnoseSettingsRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateDiagnoseSettingsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3771,7 +3801,7 @@ export const updateDictionaries: API.OperationMethod<
   UpdateDictionariesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<UpdateDictionariesRequest>,
+  input: __S(1616, __c101, 0) as any as S.Schema<UpdateDictionariesRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateDictionariesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3788,7 +3818,7 @@ export const updateIndex: API.OperationMethod<
   UpdateIndexError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<UpdateIndexRequest>,
+  input: __S(1632, __c102, 0) as any as S.Schema<UpdateIndexRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateIndexResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3805,8 +3835,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1633, __c102, 1) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(1664, __c104, 0) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(1649, __c103, 1) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<UpdateInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3822,8 +3852,8 @@ export const updateInstancePublicAccess: API.OperationMethod<
   UpdateInstancePublicAccessError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<UpdateInstancePublicAccessRequest>,
-  output: __S(1664, __c104, 0) as any as S.Schema<UpdateInstancePublicAccessResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<UpdateInstancePublicAccessRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<UpdateInstancePublicAccessResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3839,7 +3869,7 @@ export const updateIpTraceStatus: API.OperationMethod<
   UpdateIpTraceStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<UpdateIpTraceStatusRequest>,
+  input: __S(1744, __c109, 0) as any as S.Schema<UpdateIpTraceStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateIpTraceStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3856,7 +3886,7 @@ export const updateJdk: API.OperationMethod<
   UpdateJdkError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<UpdateJdkRequest>,
+  input: __S(1760, __c110, 0) as any as S.Schema<UpdateJdkRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateJdkResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3873,7 +3903,7 @@ export const updateLogstashInstance: API.OperationMethod<
   UpdateLogstashInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1761, __c110, 1) as any as S.Schema<UpdateLogstashInstanceRequest>,
+  input: __S(1777, __c111, 1) as any as S.Schema<UpdateLogstashInstanceRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateLogstashInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3890,7 +3920,7 @@ export const updateLogstashPipelineDesc: API.OperationMethod<
   UpdateLogstashPipelineDescError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<UpdateLogstashPipelineDescRequest>,
+  input: __S(1792, __c112, 0) as any as S.Schema<UpdateLogstashPipelineDescRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateLogstashPipelineDescResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3907,7 +3937,7 @@ export const updatePlugins: API.OperationMethod<
   UpdatePluginsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdatePluginsRequest>,
+  input: __S(1808, __c113, 0) as any as S.Schema<UpdatePluginsRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdatePluginsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3924,7 +3954,7 @@ export const updateRequestTargetNodeTypes: API.OperationMethod<
   UpdateRequestTargetNodeTypesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<UpdateRequestTargetNodeTypesRequest>,
+  input: __S(1824, __c114, 0) as any as S.Schema<UpdateRequestTargetNodeTypesRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateRequestTargetNodeTypesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3941,7 +3971,7 @@ export const updateServerlessInstance: API.OperationMethod<
   UpdateServerlessInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1825, __c114, 1) as any as S.Schema<UpdateServerlessInstanceRequest>,
+  input: __S(1841, __c115, 1) as any as S.Schema<UpdateServerlessInstanceRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateServerlessInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3958,7 +3988,7 @@ export const updateServerlessSpace: API.OperationMethod<
   UpdateServerlessSpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<UpdateServerlessSpaceRequest>,
+  input: __S(1856, __c116, 0) as any as S.Schema<UpdateServerlessSpaceRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpdateServerlessSpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3975,7 +4005,7 @@ export const upgradeInstance: API.OperationMethod<
   UpgradeInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<UpgradeInstanceRequest>,
+  input: __S(1872, __c117, 0) as any as S.Schema<UpgradeInstanceRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<UpgradeInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3992,8 +4022,8 @@ export const upgradeLicense: API.OperationMethod<
   UpgradeLicenseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<UpgradeLicenseRequest>,
-  output: __S(1664, __c104, 0) as any as S.Schema<UpgradeLicenseResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<UpgradeLicenseRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<UpgradeLicenseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7125,6 +7155,30 @@ function __c97(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          SpaceId: S.String,
+          Uri: S.optional(S.String),
+          Method: S.optional(S.String),
+          Body: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "es", version: "2018-04-16", action: "SearchServerlessSpaceData" }),
+        ),
+      ).annotate({ identifier: "SearchServerlessSpaceDataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          HttpStatus: S.optional(S.Number),
+          Result: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchServerlessSpaceDataResponse" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           InstanceId: S.String,
           PipelineIds: __S(16, __c1, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7134,7 +7188,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "StartLogstashPipelinesRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7148,7 +7202,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "StopLogstashPipelinesRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7163,7 +7217,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateDiagnoseSettingsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7180,7 +7234,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateDictionariesRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7200,7 +7254,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UpdateIndexRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7242,7 +7296,7 @@ function __c102(j: number): any {
           CerebroPublicAccess: S.optional(S.String),
           CerebroPrivateAccess: S.optional(S.String),
           EsConfigSet: S.optional(__S(704, __c44, 0)),
-          OperationDuration: S.optional(__S(1648, __c103, 0)),
+          OperationDuration: S.optional(__S(1664, __c104, 0)),
           KibanaAlteringPublicAccess: S.optional(S.String),
           KibanaPrivateDomain: S.optional(S.String),
           CerebroPrivateDomain: S.optional(S.String),
@@ -7258,14 +7312,14 @@ function __c102(j: number): any {
           EnableDestroyProtection: S.optional(S.String),
           AutoScaleDiskInfoList: S.optional(__S(1425, __c89, 1)),
           AutoScaleDiskDeleteNodeTypeList: S.optional(__S(16, __c1, 0)),
-          OtherConfig: S.optional(__S(1632, __c102, 0)),
+          OtherConfig: S.optional(__S(1648, __c103, 0)),
           WaitGreen: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "UpdateInstance" })),
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7279,7 +7333,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "OperationDurationUpdated" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7288,50 +7342,6 @@ function __c104(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateInstanceResponse" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          InstanceName: S.optional(S.String),
-          NodeNum: S.optional(S.Number),
-          EsConfig: S.optional(S.String),
-          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          EsAcl: S.optional(__S(672, __c42, 0)),
-          DiskSize: S.optional(S.Number),
-          NodeType: S.optional(S.String),
-          MasterNodeNum: S.optional(S.Number),
-          MasterNodeType: S.optional(S.String),
-          MasterNodeDiskSize: S.optional(S.Number),
-          ForceRestart: S.optional(S.Boolean),
-          CosBackup: S.optional(__S(48, __c3, 0)),
-          NodeInfoList: S.optional(__S(81, __c5, 1)),
-          PublicAccess: S.optional(S.String),
-          EsPublicAcl: S.optional(__S(672, __c42, 0)),
-          KibanaPublicAccess: S.optional(S.String),
-          KibanaPrivateAccess: S.optional(S.String),
-          BasicSecurityType: S.optional(S.Number),
-          KibanaPrivatePort: S.optional(S.Number),
-          ScaleType: S.optional(S.Number),
-          MultiZoneInfo: S.optional(__S(97, __c6, 1)),
-          SceneType: S.optional(S.Number),
-          KibanaConfig: S.optional(S.String),
-          WebNodeTypeInfo: S.optional(__S(82, __c5, 2)),
-          SwitchPrivateLink: S.optional(S.String),
-          EnableCerebro: S.optional(S.Boolean),
-          CerebroPublicAccess: S.optional(S.String),
-          CerebroPrivateAccess: S.optional(S.String),
-          EsConfigSet: S.optional(__S(704, __c44, 0)),
-          OperationDuration: S.optional(__S(1648, __c103, 0)),
-          KibanaAlteringPublicAccess: S.optional(__S(16, __c1, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "es", version: "2018-04-16", action: "UpdateInstancePublicAccess" }),
-        ),
-      ).annotate({ identifier: "UpdateInstancePublicAccessRequest" });
   }
 }
 function __c106(j: number): any {
@@ -7382,6 +7392,50 @@ function __c108(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceId: S.String,
+          InstanceName: S.optional(S.String),
+          NodeNum: S.optional(S.Number),
+          EsConfig: S.optional(S.String),
+          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          EsAcl: S.optional(__S(672, __c42, 0)),
+          DiskSize: S.optional(S.Number),
+          NodeType: S.optional(S.String),
+          MasterNodeNum: S.optional(S.Number),
+          MasterNodeType: S.optional(S.String),
+          MasterNodeDiskSize: S.optional(S.Number),
+          ForceRestart: S.optional(S.Boolean),
+          CosBackup: S.optional(__S(48, __c3, 0)),
+          NodeInfoList: S.optional(__S(81, __c5, 1)),
+          PublicAccess: S.optional(S.String),
+          EsPublicAcl: S.optional(__S(672, __c42, 0)),
+          KibanaPublicAccess: S.optional(S.String),
+          KibanaPrivateAccess: S.optional(S.String),
+          BasicSecurityType: S.optional(S.Number),
+          KibanaPrivatePort: S.optional(S.Number),
+          ScaleType: S.optional(S.Number),
+          MultiZoneInfo: S.optional(__S(97, __c6, 1)),
+          SceneType: S.optional(S.Number),
+          KibanaConfig: S.optional(S.String),
+          WebNodeTypeInfo: S.optional(__S(82, __c5, 2)),
+          SwitchPrivateLink: S.optional(S.String),
+          EnableCerebro: S.optional(S.Boolean),
+          CerebroPublicAccess: S.optional(S.String),
+          CerebroPrivateAccess: S.optional(S.String),
+          EsConfigSet: S.optional(__S(704, __c44, 0)),
+          OperationDuration: S.optional(__S(1664, __c104, 0)),
+          KibanaAlteringPublicAccess: S.optional(__S(16, __c1, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "es", version: "2018-04-16", action: "UpdateInstancePublicAccess" }),
+        ),
+      ).annotate({ identifier: "UpdateInstancePublicAccessRequest" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           InstanceId: S.optional(S.String),
           OpenIpTrace: S.optional(S.Boolean),
           DurationTime: S.optional(S.Number),
@@ -7392,7 +7446,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateIpTraceStatusRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7406,7 +7460,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateJdkRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7423,12 +7477,12 @@ function __c110(j: number): any {
           NodeNum: S.optional(S.Number),
           YMLConfig: S.optional(S.String),
           UserDnsIp: S.optional(S.String),
-          BindedES: S.optional(__S(1760, __c110, 0)),
+          BindedES: S.optional(__S(1776, __c111, 0)),
           InstanceName: S.optional(S.String),
           ExtendedFiles: S.optional(__S(769, __c48, 1)),
           NodeType: S.optional(S.String),
           DiskSize: S.optional(S.Number),
-          OperationDuration: S.optional(__S(1648, __c103, 0)),
+          OperationDuration: S.optional(__S(1664, __c104, 0)),
           MultiZoneInfo: S.optional(__S(97, __c6, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7437,7 +7491,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateLogstashInstanceRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7452,7 +7506,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateLogstashPipelineDescRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7468,7 +7522,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdatePluginsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7486,7 +7540,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateRequestTargetNodeTypesRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7502,7 +7556,7 @@ function __c114(j: number): any {
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           KibanaPrivateAccess: S.optional(S.String),
           KibanaPublicAccess: S.optional(S.String),
-          KibanaPublicAcl: S.optional(__S(1824, __c114, 0)),
+          KibanaPublicAcl: S.optional(__S(1840, __c115, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "es", version: "2018-04-16", action: "UpdateServerlessInstance" }),
@@ -7510,7 +7564,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdateServerlessInstanceRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7527,7 +7581,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateServerlessSpaceRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7548,22 +7602,6 @@ function __c116(j: number): any {
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "UpgradeInstance" })),
       ).annotate({ identifier: "UpgradeInstanceRequest" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          LicenseType: S.String,
-          AutoVoucher: S.optional(S.Number),
-          VoucherIds: S.optional(__S(16, __c1, 0)),
-          BasicSecurityType: S.optional(S.Number),
-          ForceRestart: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "UpgradeLicense" })),
-      ).annotate({ identifier: "UpgradeLicenseRequest" });
   }
 }
 function __c118(j: number): any {
@@ -7628,6 +7666,22 @@ function __c118(j: number): any {
           T.Action({ service: "es", version: "2018-04-16", action: "CreateServerlessInstance" }),
         ),
       ).annotate({ identifier: "CreateServerlessInstanceRequest" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          LicenseType: S.String,
+          AutoVoucher: S.optional(S.Number),
+          VoucherIds: S.optional(__S(16, __c1, 0)),
+          BasicSecurityType: S.optional(S.Number),
+          ForceRestart: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "UpgradeLicense" })),
+      ).annotate({ identifier: "UpgradeLicenseRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

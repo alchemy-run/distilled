@@ -78,7 +78,6 @@ export * as cms from "./cms.ts";
 export * as cngw from "./cngw.ts";
 export * as config from "./config.ts";
 export * as controlcenter from "./controlcenter.ts";
-export * as cpdp from "./cpdp.ts";
 export * as csip from "./csip.ts";
 export * as csxg from "./csxg.ts";
 export * as ctem from "./ctem.ts";

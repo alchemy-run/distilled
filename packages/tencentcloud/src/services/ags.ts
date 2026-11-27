@@ -1106,6 +1106,7 @@ export interface SandboxInstance {
   NetworkMode?: string | undefined;
   Metadata?: MetadataVarList | undefined;
   AuthMode?: string | undefined;
+  SubAccountUin?: string | undefined;
 }
 export type SandboxInstanceList = Array<SandboxInstance>;
 export interface DescribeSandboxInstanceListResponse {
@@ -4272,6 +4273,7 @@ function __c63(j: number): any {
           NetworkMode: S.optional(S.String),
           Metadata: S.optional(__S(129, __c8, 1)),
           AuthMode: S.optional(S.String),
+          SubAccountUin: S.optional(S.String),
         }),
       ).annotate({ identifier: "SandboxInstance" });
   }

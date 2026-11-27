@@ -446,6 +446,7 @@ export interface TTSParam {
   TargetUser: TranscriptionUserInfoParams;
   TTSRobotUser: TranscriptionUserInfoParams;
   Voice: TTSVoice;
+  ExtraParams?: string | undefined;
 }
 export type TTSParamList = Array<TTSParam>;
 export interface CreateCloudTranscriptionRequest {
@@ -6834,6 +6835,7 @@ function __c106(j: number): any {
           TargetUser: __S(3360, __c105, 0),
           TTSRobotUser: __S(3360, __c105, 0),
           Voice: __S(3396, __c106, 4),
+          ExtraParams: S.optional(S.String),
         }),
       ).annotate({ identifier: "TTSParam" });
     case 6:

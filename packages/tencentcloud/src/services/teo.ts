@@ -798,6 +798,8 @@ export interface SiteFailoverParameters {
 }
 export interface HTTPUpstreamTimeoutParameters {
   ResponseTimeout?: number | undefined;
+  TCPConnectTimeout?: number | undefined;
+  KeepaliveTimeout?: number | undefined;
 }
 export interface HTTPResponseParameters {
   StatusCode?: number | undefined;
@@ -16065,6 +16067,8 @@ function __c215(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResponseTimeout: S.optional(S.Number),
+          TCPConnectTimeout: S.optional(S.Number),
+          KeepaliveTimeout: S.optional(S.Number),
         }),
       ).annotate({ identifier: "HTTPUpstreamTimeoutParameters" });
     case 26:
