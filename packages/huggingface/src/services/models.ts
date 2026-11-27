@@ -41,22 +41,22 @@ export class UnprocessableEntity
     [{ status: 422 }],
   ) {}
 
-export interface AddResourceGroupRequest {
+export interface AssignResourceGroupRequest {
   namespace: string;
   repo: string;
-  /** The resource group to add the repository to, if null, the repository will be removed from the resource group */
+  /** The resource group to assign the repository to. If null, the repository is removed from any resource group. */
   resourceGroupId: string | null;
 }
-export type AddResourceGroupResponseType =
+export type AssignResourceGroupResponseType =
   | "dataset"
   | "model"
   | "space"
   | "bucket"
   | "kernel"
   | "container";
-export interface AddResourceGroupResponse {
+export interface AssignResourceGroupResponse {
   name: string;
-  type: AddResourceGroupResponseType;
+  type: AssignResourceGroupResponseType;
   private: boolean;
   addedBy: string;
 }
@@ -524,18 +524,16 @@ export interface GetTrendingResponseRecentlyTrendingItemCase0 {
 }
 export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -559,6 +557,7 @@ export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferen
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -567,10 +566,6 @@ export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferen
 export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProvider =
   | GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderCase0
   | GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderCase1;
-export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -639,7 +634,6 @@ export interface GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableIn
 }
 export interface GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItem {
   provider: GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProvider;
-  providerStatus: GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderStatus;
   modelStatus: GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemTask;
@@ -1889,22 +1883,22 @@ export interface XetWriteTokenResponse {
   exp: number;
   accessToken: string | Redacted.Redacted<string>;
 }
-export type AddResourceGroupError = HuggingFaceOpError;
-/** Add resource group Add the repository to a resource group */
-export const addResourceGroup: API.OperationMethod<
-  AddResourceGroupRequest,
-  AddResourceGroupResponse,
-  AddResourceGroupError,
+export type AssignResourceGroupError = HuggingFaceOpError;
+/** Assign resource group Assign, move, or unassign an organization-owned repository to a resource group. Pass null to unassign. User-owned repositories are not eligible. */
+export const assignResourceGroup: API.OperationMethod<
+  AssignResourceGroupRequest,
+  AssignResourceGroupResponse,
+  AssignResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddResourceGroupRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<AddResourceGroupResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<AssignResourceGroupRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<AssignResourceGroupResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "AddResourceGroup",
+  span: "AssignResourceGroup",
 }));
 
 export type BatchHandleAccessRequestsError = HuggingFaceOpError;
@@ -2589,7 +2583,7 @@ function __c0(j: number): any {
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "AddResourceGroupRequest" });
+      ).annotate({ identifier: "AssignResourceGroupRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2598,7 +2592,7 @@ function __c0(j: number): any {
           private: S.Boolean,
           addedBy: S.String,
         }),
-      ).annotate({ identifier: "AddResourceGroupResponse" });
+      ).annotate({ identifier: "AssignResourceGroupResponse" });
   }
 }
 function __c1(j: number): any {

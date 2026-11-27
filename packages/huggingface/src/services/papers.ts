@@ -141,18 +141,16 @@ export type GetPaperResponseSubmittedOnDailyBy = GetDailyPapersResponseBodyItemP
 export type GetPaperResponseAiKeywordsList = Array<string>;
 export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -176,6 +174,7 @@ export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvi
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -184,10 +183,6 @@ export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvi
 export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvider =
   | GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderCase0
   | GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderCase1;
-export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -256,7 +251,6 @@ export interface GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItem
 }
 export interface GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItem {
   provider: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderStatus;
   modelStatus: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemTask;
@@ -1031,7 +1025,6 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provider: S.Unknown,
-          providerStatus: S.String,
           modelStatus: S.String,
           providerId: S.String,
           task: S.String,

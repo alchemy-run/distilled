@@ -250,18 +250,16 @@ export type AddItemResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Not
 export type AddItemResponseItemsItemCase1GalleryList = Array<string>;
 export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -285,6 +283,7 @@ export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -293,10 +292,6 @@ export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider
 export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -365,7 +360,6 @@ export interface AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFea
 }
 export interface AddItemResponseItemsItemCase1AvailableInferenceProvidersItem {
   provider: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemTask;
@@ -1120,18 +1114,16 @@ export type AddItemBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCa
 export type AddItemBySlugResponseItemsItemCase1GalleryList = Array<string>;
 export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -1155,6 +1147,7 @@ export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemPr
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -1163,10 +1156,6 @@ export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemPr
 export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -1234,7 +1223,6 @@ export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemFe
   AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 export interface AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem {
   provider: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask;
@@ -2037,18 +2025,16 @@ export type CreateCollectionResponseItemsItemCase1Note = AddItemResponseItemsIte
 export type CreateCollectionResponseItemsItemCase1GalleryList = Array<string>;
 export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -2072,6 +2058,7 @@ export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersIte
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -2080,10 +2067,6 @@ export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersIte
 export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -2151,7 +2134,6 @@ export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersIte
   AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 export interface CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem {
   provider: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask;
@@ -2922,18 +2904,16 @@ export type GetCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCa
 export type GetCollectionResponseItemsItemCase1GalleryList = Array<string>;
 export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -2957,6 +2937,7 @@ export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemPr
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -2965,10 +2946,6 @@ export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemPr
 export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -3036,7 +3013,6 @@ export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemFe
   AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 export interface GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem {
   provider: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask;
@@ -3783,18 +3759,16 @@ export type GetCollectionBySlugResponseItemsItemCase1Note = AddItemResponseItems
 export type GetCollectionBySlugResponseItemsItemCase1GalleryList = Array<string>;
 export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -3818,6 +3792,7 @@ export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProviders
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -3826,10 +3801,6 @@ export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProviders
 export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -3897,7 +3868,6 @@ export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProviders
   AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 export interface GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem {
   provider: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask;
@@ -4702,18 +4672,16 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase1Note =
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList = Array<string>;
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -4737,6 +4705,7 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceP
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -4745,10 +4714,6 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceP
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider =
   | GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -4816,7 +4781,6 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceP
   AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem {
   provider: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemTask;
@@ -5692,18 +5656,16 @@ export type UpdateCollectionResponseDataItemsItemCase1Note = AddItemResponseItem
 export type UpdateCollectionResponseDataItemsItemCase1GalleryList = Array<string>;
 export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -5727,6 +5689,7 @@ export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvider
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -5735,10 +5698,6 @@ export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvider
 export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
   | UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -5806,7 +5765,6 @@ export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvider
   AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 export interface UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem {
   provider: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemTask;
@@ -6634,18 +6592,16 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase1Note =
 export type UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList = Array<string>;
 export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
-  | "cerebras"
   | "cohere"
+  | "cerebras"
   | "deepinfra"
   | "fal-ai"
   | "featherless-ai"
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
-  | "humain-ai"
   | "novita"
   | "nscale"
-  | "openai"
   | "openrouter"
   | "ovhcloud"
   | "publicai"
@@ -6669,6 +6625,7 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferencePr
   | "nebius"
   | "parasail"
   | "primeintellect"
+  | "deepseek"
   | "liquid"
   | "mistral"
   | "moonshotai"
@@ -6677,10 +6634,6 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferencePr
 export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
   | UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0
   | UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
-export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
 export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
@@ -6748,7 +6701,6 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferencePr
   AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 export interface UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem {
   provider: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider;
-  providerStatus: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
   modelStatus: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemTask;
