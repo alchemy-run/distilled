@@ -275,7 +275,8 @@ export interface RestProtocolOptions<
    * host; map it to a base URL from the credentials. To refuse a route (e.g.
    * a required scope missing from the credentials), return `Effect.fail` of
    * the error the call fails with. A THROWN error fails the call with
-   * `SdkError`.
+   * `SdkError`, as anything thrown under a call does (the defect boundary,
+   * `./api.ts`).
    */
   readonly baseUrl: (
     credentials: Credentials,
@@ -602,16 +603,11 @@ export const restProtocolMethods = <
     inputAst: AST.AST,
   ): Effect.Effect<HttpClientRequest.HttpClientRequest, RequestError> => {
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-    let baseUrl: string | Effect.Effect<never, RouteError>;
-    try {
-      baseUrl = options.baseUrl(creds, {
-        uri: http?.uri ?? "",
-        method: http?.method ?? "",
-        server: http?.server,
-      });
-    } catch (cause) {
-      return Effect.fail(new SdkError({ message: `baseUrl threw: ${String(cause)}` }));
-    }
+    const baseUrl = options.baseUrl(creds, {
+      uri: http?.uri ?? "",
+      method: http?.method ?? "",
+      server: http?.server,
+    });
     // A baseUrl that refuses the route (missing scope in the credentials)
     // returns the failure.
     if (typeof baseUrl !== "string") return baseUrl;
