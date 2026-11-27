@@ -23,6 +23,7 @@ import {
   matchTypedError,
   responseErrorFields,
   responseHeaderMembers,
+  unsendable,
   withResponseHeaders,
   type InvalidInput,
   type ResponseHeaderMember,
@@ -614,8 +615,15 @@ export const restProtocolMethods = <
     // A baseUrl that refuses the route (missing scope in the credentials)
     // returns the failure.
     if (typeof baseUrl !== "string") return baseUrl;
+    let plain: unknown;
+    try {
+      plain = unwrapRedactedDeep(input);
+    } catch (cause) {
+      // An input that contains itself: the walk overflows the stack.
+      return Effect.fail(unsendable(cause));
+    }
     return buildRequest({
-      input: unwrapRedactedDeep(input),
+      input: plain,
       inputAst,
       baseUrl,
       headers: options.headers(creds),

@@ -8,7 +8,7 @@ import type {
   Protocol,
   ProtocolOf,
 } from "@distilled.cloud/core/protocol";
-import { invalidHostLabel, type InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { invalidHostLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Send from "@distilled.cloud/core/send";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
@@ -356,6 +356,20 @@ const toHttpRequest = (
     const hostStart = endpoint.indexOf("://") + 3;
     if (!endpoint.startsWith(resolvedPrefix, hostStart)) {
       endpoint = endpoint.replace("://", `://${resolvedPrefix}`);
+    }
+  }
+
+  // A query name or value with a lone UTF-16 surrogate (`"\ud800"`) can't be
+  // percent-encoded: `encodeURIComponent` throws `URIError` on it. The `=`
+  // keeps a surrogate at the end of the name from pairing with the value's.
+  for (const [name, value] of Object.entries(resolvedRequest.query)) {
+    if (!`${name}=${value}`.isWellFormed()) {
+      return Effect.fail(
+        new InvalidInput({
+          member: name,
+          message: `Query parameter ${name} has a lone UTF-16 surrogate, which a URL cannot carry`,
+        }),
+      );
     }
   }
 
