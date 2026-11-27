@@ -738,6 +738,27 @@ export class InvalidInput
   }).pipe(Category.withBadRequestError) {}
 
 /**
+ * The refusal for an input no request can carry. `cause` is what a step
+ * that only reads the caller's values threw: `JSON.stringify` on a `BigInt`,
+ * a walk of an object that contains itself.
+ */
+export const unsendable = (cause: unknown): InvalidInput =>
+  new InvalidInput({ member: "input", message: `The input cannot be sent: ${String(cause)}` });
+
+/** `value` as the JSON body of `request`, or the refusal for a value JSON cannot carry. */
+const withJsonBody = (
+  request: HttpClientRequest.HttpClientRequest,
+  value: unknown,
+  contentType: string | undefined,
+): HttpClientRequest.HttpClientRequest | InvalidInput => {
+  try {
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(value, contentType));
+  } catch (cause) {
+    return unsendable(cause);
+  }
+};
+
+/**
  * The refusal for a path label value that would address another resource,
  * or `undefined`. The URL parser resolves a `.` or `..` segment,
  * percent-encoded or not, so no encoding can carry one
@@ -890,7 +911,9 @@ export const originFromConfig = (
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is),
- * is `""` and the schema marks it required, or has a lone UTF-16 surrogate.
+ * is `""` and the schema marks it required, or has a lone UTF-16 surrogate,
+ * and when a JSON body holds a value JSON cannot carry (a `BigInt`, an
+ * object that contains itself).
  * Fails with {@link SdkError} when the input schema is missing the `Http()`
  * trait (a codegen bug the generator refuses).
  */
@@ -1134,7 +1157,7 @@ const requestOrInvalid = ({
           : HttpBody.uint8Array(rawBody as Uint8Array, contentType),
       );
     }
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody, memberContentType));
+    return withJsonBody(request, rawBody, memberContentType);
   }
   if (
     // A GET/HEAD sends a body only when body members actually carry values.
@@ -1153,7 +1176,7 @@ const requestOrInvalid = ({
     // some endpoints reject a missing JSON body outright. A Content-Type
     // member names the JSON media type, as for a whole body above (a
     // Kubernetes merge patch is `application/merge-patch+json`).
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body, memberContentType));
+    return withJsonBody(request, body, memberContentType);
   }
   return request;
 };
