@@ -12385,7 +12385,7 @@ export const getZoneTransferTsig: API.OperationMethod<
 }));
 
 export type ImportRecordError = CloudflareOpError;
-/** You can upload your [BIND config](https://en.wikipedia.org/wiki/Zone_file "Zone file") through this endpoint. It assumes that cURL is called from a location with bind_config.txt (valid BIND config) present. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/import-and-export/ "Import and export records") for more information. */
+/** You can upload your [BIND config](https://en.wikipedia.org/wiki/Zone_file "Zone file") through this endpoint. It assumes that cURL is called from a location with bind_config.txt (valid BIND config) present. Each import accepts zone files up to 32 MiB and parses at most the zone or account record quota plus a small buffer for skipped records, including records expanded by `$GENERATE` directives, which may expand to at most 1,000,000 records in total. Up to 1,000 warning or error messages are returned per import, followed by a warning with the number of messages left out, if any. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/import-and-export/ "Import and export records") for more information. */
 export const importRecord: API.OperationMethod<
   ImportRecordRequest,
   ImportRecordResponse,

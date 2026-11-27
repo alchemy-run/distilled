@@ -146,7 +146,7 @@ export type AccountRulesListResultItemMatchersItemField = "to";
 export interface AccountRulesListResultItemMatchersItem {
   /** Type of matcher. */
   type: AccountRulesListResultItemMatchersItemType;
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: AccountRulesListResultItemMatchersItemField | null | undefined;
   /** Value for matcher. */
   value?: string | null | undefined;
@@ -166,7 +166,7 @@ export interface AccountRulesListResultItem {
   actions?: AccountRulesListResultItemActionsList | null | undefined;
   /** Routing rule status. */
   enabled?: boolean | null | undefined;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers?: AccountRulesListResultItemMatchersList | null | undefined;
   /** Routing rule name. */
   name?: string | null | undefined;
@@ -259,7 +259,7 @@ export type RulesCreateRequestMatchersItemField = "to";
 export interface RulesCreateRequestMatchersItem {
   /** Type of matcher. */
   type: RulesCreateRequestMatchersItemType | (string & {});
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: RulesCreateRequestMatchersItemField | (string & {}) | undefined;
   /** Value for matcher. */
   value?: string | undefined;
@@ -271,7 +271,7 @@ export interface CreateRuleRequest {
   zoneId: string;
   /** List actions patterns. */
   actions: RulesCreateRequestActionsList;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers: RulesCreateRequestMatchersList;
   /** Routing rule status. */
   enabled?: boolean | undefined;
@@ -298,7 +298,7 @@ export type RulesCreateResponseMatchersItemField = "to";
 export interface RulesCreateResponseMatchersItem {
   /** Type of matcher. */
   type: RulesCreateResponseMatchersItemType;
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: RulesCreateResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
   value?: string | null | undefined;
@@ -313,7 +313,7 @@ export interface CreateRuleResponse {
   actions?: RulesCreateResponseActionsList | null | undefined;
   /** Routing rule status. */
   enabled?: boolean | null | undefined;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers?: RulesCreateResponseMatchersList | null | undefined;
   /** Routing rule name. */
   name?: string | null | undefined;
@@ -396,7 +396,7 @@ export type RulesDeleteResponseMatchersItemField = "to";
 export interface RulesDeleteResponseMatchersItem {
   /** Type of matcher. */
   type: RulesDeleteResponseMatchersItemType;
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: RulesDeleteResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
   value?: string | null | undefined;
@@ -411,7 +411,7 @@ export interface DeleteRuleResponse {
   actions?: RulesDeleteResponseActionsList | null | undefined;
   /** Routing rule status. */
   enabled?: boolean | null | undefined;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers?: RulesDeleteResponseMatchersList | null | undefined;
   /** Routing rule name. */
   name?: string | null | undefined;
@@ -656,7 +656,7 @@ export type RulesGetResponseMatchersItemField = "to";
 export interface RulesGetResponseMatchersItem {
   /** Type of matcher. */
   type: RulesGetResponseMatchersItemType;
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: RulesGetResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
   value?: string | null | undefined;
@@ -671,7 +671,7 @@ export interface GetRuleResponse {
   actions?: RulesGetResponseActionsList | null | undefined;
   /** Routing rule status. */
   enabled?: boolean | null | undefined;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers?: RulesGetResponseMatchersList | null | undefined;
   /** Routing rule name. */
   name?: string | null | undefined;
@@ -893,7 +893,7 @@ export type RulesListResultItemMatchersItemField = "to";
 export interface RulesListResultItemMatchersItem {
   /** Type of matcher. */
   type: RulesListResultItemMatchersItemType;
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: RulesListResultItemMatchersItemField | null | undefined;
   /** Value for matcher. */
   value?: string | null | undefined;
@@ -908,7 +908,7 @@ export interface RulesListResultItem {
   actions?: RulesListResultItemActionsList | null | undefined;
   /** Routing rule status. */
   enabled?: boolean | null | undefined;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers?: RulesListResultItemMatchersList | null | undefined;
   /** Routing rule name. */
   name?: string | null | undefined;
@@ -1017,7 +1017,7 @@ export type RulesUpdateRequestMatchersItemField = "to";
 export interface RulesUpdateRequestMatchersItem {
   /** Type of matcher. */
   type: RulesUpdateRequestMatchersItemType | (string & {});
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: RulesUpdateRequestMatchersItemField | (string & {}) | undefined;
   /** Value for matcher. */
   value?: string | undefined;
@@ -1031,7 +1031,7 @@ export interface UpdateRuleRequest {
   ruleIdentifier: string;
   /** List actions patterns. */
   actions: RulesUpdateRequestActionsList;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers: RulesUpdateRequestMatchersList;
   /** Routing rule status. */
   enabled?: boolean | undefined;
@@ -1058,7 +1058,7 @@ export type RulesUpdateResponseMatchersItemField = "to";
 export interface RulesUpdateResponseMatchersItem {
   /** Type of matcher. */
   type: RulesUpdateResponseMatchersItemType;
-  /** Field for type matcher. */
+  /** Field for type matcher. Required for `literal` matchers, and must be `to`. */
   field?: RulesUpdateResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
   value?: string | null | undefined;
@@ -1073,7 +1073,7 @@ export interface UpdateRuleResponse {
   actions?: RulesUpdateResponseActionsList | null | undefined;
   /** Routing rule status. */
   enabled?: boolean | null | undefined;
-  /** Matching patterns to forward to your actions. */
+  /** Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. */
   matchers?: RulesUpdateResponseMatchersList | null | undefined;
   /** Routing rule name. */
   name?: string | null | undefined;
