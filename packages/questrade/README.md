@@ -38,10 +38,8 @@ const program = Effect.gen(function* () {
   return { balances: balances.combinedBalances, positions, quote: quote?.quotes?.[0] };
 });
 
-const Live = Layer.mergeAll(
-  FetchHttpClient.layer,
-  Questrade.CredentialsFromEnv,
-);
+// The credentials redeem the refresh token through the HttpClient.
+const Live = Questrade.CredentialsFromEnv.pipe(Layer.provideMerge(FetchHttpClient.layer));
 
 program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
 ```
@@ -57,11 +55,12 @@ API Centre (**API centre → Personal apps → New manual authorization**) and s
 | `QUESTRADE_LOGIN_URL` | Optional. Default `https://login.questrade.com`; `https://practicelogin.questrade.com` for a practice account. |
 | `QUESTRADE_ACCESS_TOKEN` + `QUESTRADE_API_SERVER` | Optional. Use a token you already hold; no refresh. |
 
-The SDK redeems the refresh token at `GET /oauth2/token`, sends the access
-token as `Authorization: Bearer`, and calls the `api_server` the redemption
-names. The access token lives 30 minutes; the SDK redeems again shortly before
-it expires. A failed redemption fails the call with `TokenRequestFailed`, which
-carries the login server's `status`.
+The SDK redeems the refresh token at `GET /oauth2/token` through the
+program's `HttpClient`, sends the access token as `Authorization: Bearer`,
+and calls the `api_server` the redemption names. The access token lives 30
+minutes; the SDK redeems again shortly before it expires. A failed redemption
+fails the call with `TokenRequestFailed`, which carries the login server's
+`status`.
 
 A refresh token works **once**: each redemption returns the next one. To keep
 a program able to start again, store the new token with `fromRefreshToken`:
@@ -72,7 +71,7 @@ import * as Redacted from "effect/Redacted";
 const Credentials = Questrade.fromRefreshToken({
   refreshToken: Redacted.make(savedRefreshToken),
   onRefresh: (tokens) => saveRefreshToken(Redacted.value(tokens.refreshToken)),
-});
+}).pipe(Layer.provideMerge(FetchHttpClient.layer));
 ```
 
 ## Operations

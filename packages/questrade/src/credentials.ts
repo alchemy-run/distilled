@@ -10,6 +10,9 @@
  *   GET https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=...
  *   -> { access_token, token_type, expires_in, refresh_token, api_server }
  *
+ * The redemption goes through the caller's `HttpClient`, like every other
+ * request the SDK makes.
+ *
  * The access token lives 30 minutes, and each refresh token redeems ONCE:
  * the answer carries the next one. {@link fromRefreshToken} redeems on first
  * use, reuses the access token until shortly before it expires, then redeems
@@ -28,6 +31,8 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Equal from "effect/Equal";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -81,32 +86,43 @@ const tokenError = (message: string, status?: number) =>
     status,
   });
 
-/** Redeem a refresh token at the login server. Fails with {@link TokenRequestFailed}. */
+/**
+ * Redeem a refresh token at the login server, through the caller's
+ * `HttpClient`. The token stays `Redacted` in the query, so the client's
+ * spans and errors print the URL without it. Fails with
+ * {@link TokenRequestFailed}.
+ */
 export const redeemRefreshToken = (
   refreshToken: Redacted.Redacted<string>,
   loginUrl: string = DEFAULT_LOGIN_URL,
-): Effect.Effect<Tokens, TokenRequestFailed> =>
+): Effect.Effect<Tokens, TokenRequestFailed, HttpClient.HttpClient> =>
   Effect.gen(function* () {
-    const url = new URL("/oauth2/token", loginUrl);
-    url.searchParams.set("grant_type", "refresh_token");
-    url.searchParams.set("refresh_token", Redacted.value(refreshToken));
-    const response = yield* Effect.tryPromise({
-      try: () => fetch(url, { headers: { accept: "application/json" } }),
-      catch: (cause) => tokenError(`request to ${loginUrl} failed: ${String(cause)}`),
-    });
-    if (!response.ok) {
+    const client = yield* HttpClient.HttpClient;
+    const response = yield* client
+      .execute(
+        HttpClientRequest.get(`${loginUrl.replace(/\/+$/, "")}/oauth2/token`).pipe(
+          HttpClientRequest.acceptJson,
+          HttpClientRequest.setUrlParam("grant_type", "refresh_token"),
+          HttpClientRequest.setUrlParam("refresh_token", refreshToken),
+        ),
+      )
+      .pipe(
+        Effect.mapError((cause) => tokenError(`request to ${loginUrl} failed: ${cause.message}`)),
+      );
+    if (response.status < 200 || response.status >= 300) {
       // The body of a refused redemption is an HTML page or a bare message;
-      // the status says enough, and the request URL holds the token.
+      // the status says enough.
       return yield* tokenError(
-        `${loginUrl} answered ${response.status} ${response.statusText} ` +
+        `${loginUrl} answered ${response.status} ` +
           `(a refresh token redeems once -- use the one the last redemption returned)`,
         response.status,
       );
     }
-    const body = (yield* Effect.tryPromise({
-      try: () => response.json(),
-      catch: () => tokenError(`${loginUrl} answered with a body that is not JSON`, response.status),
-    })) as Record<string, unknown> | null;
+    const body = (yield* response.json.pipe(
+      Effect.mapError(() =>
+        tokenError(`${loginUrl} answered with a body that is not JSON`, response.status),
+      ),
+    )) as Record<string, unknown> | null;
     const { access_token, refresh_token, api_server, expires_in } = body ?? {};
     if (
       typeof access_token !== "string" ||
@@ -129,11 +145,13 @@ export const redeemRefreshToken = (
 /**
  * A resolver that redeems `config`'s refresh token on first use, caches the
  * access token until shortly before it expires, and then redeems the
- * refresh token the last redemption returned.
+ * refresh token the last redemption returned. The cache and the rotated
+ * refresh token belong to the resolver; each layer build only supplies the
+ * `HttpClient` to redeem with.
  */
 const redeemingResolver = (
   config: RefreshTokenConfig,
-): Effect.Effect<Config, TokenRequestFailed> => {
+): ((client: HttpClient.HttpClient) => Effect.Effect<Config, TokenRequestFailed>) => {
   let next: Redacted.Redacted<string> | undefined;
   const redeem = Effect.gen(function* () {
     const tokens = yield* redeemRefreshToken(next ?? config.refreshToken, config.loginUrl);
@@ -146,17 +164,30 @@ const redeemingResolver = (
         Math.max(tokens.expiresInSeconds * 1000 - REFRESH_WINDOW_MS, REFRESH_WINDOW_MS),
     };
   });
-  return refreshing(redeem, (redeemed) => redeemed.refreshAt, {
+  const cached = refreshing(redeem, (redeemed) => redeemed.refreshAt, {
     onTimeout: (timeoutMs) =>
       new TokenRequestFailed({
         message: `Questrade refresh token redemption timed out after ${timeoutMs / 1000} s`,
       }),
   }).pipe(Effect.map((redeemed) => redeemed.config));
+  return (client) => Effect.provideService(cached, HttpClient.HttpClient, client);
 };
 
-/** Credentials from a refresh token, redeemed on first use and again before each expiry. */
-export const fromRefreshToken = (config: RefreshTokenConfig): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, redeemingResolver(config));
+/**
+ * Credentials from a refresh token, redeemed on first use and again before
+ * each expiry, through the `HttpClient` the layer is built with.
+ */
+export const fromRefreshToken = (
+  config: RefreshTokenConfig,
+): Layer.Layer<Credentials, never, HttpClient.HttpClient> => {
+  const resolveWith = redeemingResolver(config);
+  return Layer.effect(
+    Credentials,
+    Effect.gen(function* () {
+      return resolveWith(yield* HttpClient.HttpClient);
+    }),
+  );
+};
 
 /** Credentials from an access token and the API server it was issued for (no refresh). */
 export const fromAccessToken = (config: {
@@ -192,33 +223,34 @@ const MISSING =
  * otherwise `QUESTRADE_REFRESH_TOKEN`, redeemed at `QUESTRADE_LOGIN_URL`
  * (default {@link DEFAULT_LOGIN_URL}) on first use. The environment is read
  * once, when the layer is built: with neither set, the layer fails with
- * `ConfigError`. The rotated refresh tokens are kept in memory only -- use
- * {@link fromRefreshToken} with `onRefresh` to store them.
+ * `ConfigError`. The refresh token is redeemed through the `HttpClient` the
+ * layer is built with. The rotated refresh tokens are kept in memory only --
+ * use {@link fromRefreshToken} with `onRefresh` to store them.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ (() => {
-  // A refresh token redeems once, so every build of this layer that reads
-  // the same token shares one resolver, and with it the rotated tokens.
-  let kept:
-    | {
-        readonly refreshToken: Redacted.Redacted<string>;
-        readonly loginUrl: string;
-        readonly resolve: Effect.Effect<Config, TokenRequestFailed>;
-      }
-    | undefined;
-  return Layer.effect(
-    Credentials,
-    envConfig.pipe(
-      Effect.mapError(() => new ConfigError({ message: MISSING })),
-      Effect.flatMap(({ accessToken, apiServer, refreshToken, loginUrl }) => {
-        if (Option.isSome(accessToken) && Option.isSome(apiServer)) {
-          return Effect.succeed(
-            Effect.succeed({
-              accessToken: accessToken.value,
-              apiServer: normalizeApiServer(apiServer.value),
-            }),
-          );
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError, HttpClient.HttpClient> =
+  /*@__PURE__*/ (() => {
+    // A refresh token redeems once, so every build of this layer that reads
+    // the same token shares one resolver, and with it the rotated tokens.
+    let kept:
+      | {
+          readonly refreshToken: Redacted.Redacted<string>;
+          readonly loginUrl: string;
+          readonly resolveWith: ReturnType<typeof redeemingResolver>;
         }
-        if (Option.isNone(refreshToken)) return Effect.fail(new ConfigError({ message: MISSING }));
+      | undefined;
+    return Layer.effect(
+      Credentials,
+      Effect.gen(function* () {
+        const { accessToken, apiServer, refreshToken, loginUrl } = yield* envConfig.pipe(
+          Effect.mapError(() => new ConfigError({ message: MISSING })),
+        );
+        if (Option.isSome(accessToken) && Option.isSome(apiServer)) {
+          return Effect.succeed({
+            accessToken: accessToken.value,
+            apiServer: normalizeApiServer(apiServer.value),
+          });
+        }
+        if (Option.isNone(refreshToken)) return yield* new ConfigError({ message: MISSING });
         if (
           kept === undefined ||
           kept.loginUrl !== loginUrl ||
@@ -227,11 +259,10 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PU
           kept = {
             refreshToken: refreshToken.value,
             loginUrl,
-            resolve: redeemingResolver({ refreshToken: refreshToken.value, loginUrl }),
+            resolveWith: redeemingResolver({ refreshToken: refreshToken.value, loginUrl }),
           };
         }
-        return Effect.succeed(kept.resolve);
+        return kept.resolveWith(yield* HttpClient.HttpClient);
       }),
-    ),
-  );
-})();
+    );
+  })();
