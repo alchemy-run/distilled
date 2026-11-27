@@ -32,6 +32,12 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 Backend calls require `CLERK_SECRET_KEY`, sent as `Authorization: Bearer`. Optional: `CLERK_API_BASE_URL` (default `https://api.clerk.com/v1`) and `CLERK_API_VERSION` (default `2026-05-12`, sent as `Clerk-API-Version`).
 
+## Beta features
+
+Backend operations the spec tags "Beta Features" (`updateInstanceAuthConfig`,
+`changeProductionInstanceDomain`) are imported from `@distilled.cloud/clerk/unstable/clerk`. The
+rest of the Backend API stays on `@distilled.cloud/clerk/clerk`.
+
 ## Platform API
 
 The Platform API manages workspace applications, instances, configuration, users, organizations, domains, and related resources. It is currently **private beta** and requires [Platform API access](https://github.com/clerk/openapi-specs/blob/main/platform/beta.yml).
